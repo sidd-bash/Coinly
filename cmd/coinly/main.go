@@ -3,15 +3,23 @@ package main
 import (
     "fmt"
     "os"
+
+    "github.com/joho/godotenv"
     "github.com/sidd-bash/coinly/internal/config"
     "github.com/sidd-bash/coinly/internal/models"
     "github.com/sidd-bash/coinly/internal/routes"
 )
 
 func main() {
+    // 🔹 Load environment variables once globally
+    if err := godotenv.Load(); err != nil {
+        fmt.Println("⚠️ No .env file found — using system environment variables")
+    } else {
+        fmt.Println("✅ Loaded .env successfully")
+    }
+
     config.Init()
 
-    // Auto migrate models
     config.DB.AutoMigrate(&models.User{}, &models.Trade{})
 
     r := routes.SetupRouter()

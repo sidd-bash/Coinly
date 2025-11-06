@@ -2,7 +2,8 @@ package routes
 
 import (
     "github.com/gin-gonic/gin"
-    "coinly/internal/handlers"
+    "github.com/sidd-bash/coinly/internal/handlers"
+    "github.com/sidd-bash/coinly/internal/middleware"
 )
 
 func SetupRouter() *gin.Engine {
@@ -12,13 +13,17 @@ func SetupRouter() *gin.Engine {
         c.JSON(200, gin.H{"message": "Welcome to Coinly API 🚀"})
     })
 
-    // User routes
-    r.POST("/users", handlers.CreateUser)
-    r.GET("/users", handlers.GetUsers)
+    // Auth routes
+    r.POST("/register", handlers.Register)
+    r.POST("/login", handlers.Login)
 
-    // Trade routes
-    r.POST("/trades", handlers.CreateTrade)
-    r.GET("/trades", handlers.GetTrades)
+    // Protected group
+    auth := r.Group("/api")
+    auth.Use(middleware.AuthMiddleware())
+
+    auth.POST("/trades", handlers.CreateTrade)
+    auth.GET("/trades", handlers.GetTrades)
+    auth.GET("/users", handlers.GetUsers)
 
     return r
 }
