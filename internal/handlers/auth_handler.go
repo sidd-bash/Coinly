@@ -36,7 +36,15 @@ func Register(c *gin.Context) {
         return
     }
 
-    c.JSON(http.StatusCreated, gin.H{"message": "user registered successfully"})
+    // ✅ Auto-create INR wallet with ₹100,000
+    wallet := models.Wallet{UserID: user.ID, Currency: "INR", Balance: 100000}
+    config.DB.Create(&wallet)
+
+    c.JSON(http.StatusCreated, gin.H{
+        "message": "user registered successfully",
+        "wallet":  wallet,
+    })
+
 }
 
 // --- LOGIN ---

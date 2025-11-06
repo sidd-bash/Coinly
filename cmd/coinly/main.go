@@ -20,7 +20,7 @@ func main() {
 
     config.Init()
 
-    config.DB.AutoMigrate(&models.User{}, &models.Trade{})
+    config.DB.AutoMigrate(&models.User{}, &models.Trade{}, &models.Wallet{})
 
     r := routes.SetupRouter()
 

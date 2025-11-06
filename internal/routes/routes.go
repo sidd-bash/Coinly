@@ -21,9 +21,19 @@ func SetupRouter() *gin.Engine {
     auth := r.Group("/api")
     auth.Use(middleware.AuthMiddleware())
 
+        
+    auth.GET("/users", handlers.GetUsers)
+
+    // Trading
     auth.POST("/trades", handlers.CreateTrade)
     auth.GET("/trades", handlers.GetTrades)
-    auth.GET("/users", handlers.GetUsers)
+
+
+    // Wallets
+    auth.GET("/wallets", handlers.GetWallets)
+
+    // Market
+    auth.GET("/market/prices", handlers.GetMarketPrices)
 
     return r
 }
