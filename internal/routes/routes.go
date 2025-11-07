@@ -35,5 +35,10 @@ func SetupRouter() *gin.Engine {
     // Market
     auth.GET("/market/prices", handlers.GetMarketPrices)
 
+    // Trade
+    auth.POST("/trade/buy", handlers.BuyCrypto)
+    auth.POST("/trade/sell", handlers.SellCrypto)
+    auth.GET("/orders", handlers.GetOrders)
+
     return r
 }
